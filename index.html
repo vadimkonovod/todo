@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Todo</title>
+		<link rel="stylesheet" href="style/index.css">
+	</head>
+	<body>
+		<section class="todoapp">
+			<header class="header">
+				<h1>todos</h1>
+				<input class="new-todo" placeholder="What needs to be done?" autofocus>
+			</header>
+			<section class="main">
+				<input class="toggle-all" id="toggle-all" type="checkbox">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list"></ul>
+			</section>
+			<footer class="footer"></footer>
+		</section>
+
+		<footer class="info">
+			<p>Double-click to edit a todo</p>
+			<p>Written by <a href="https://github.com/vadimkonovod">Vadim Konovod</a></p>
+		</footer>
+
+		<script type="text/template" id="item-template">
+			<li>
+				<div class="view">
+					<input class="toggle" type="checkbox">
+					<label></label>
+					<button class="destroy"></button>
+				</div>
+				<input class="edit" value="yep">
+			</li>
+		</script>
+
+		<script type="text/template" id="stats-template">
+			<span class="todo-count"></span>
+			<ul class="filters">
+				<li>
+					<a class="selected" href="#/">All</a>
+				</li>
+				<li>
+					<a href="#/active">Active</a>
+				</li>
+				<li>
+					<a href="#/completed">Completed</a>
+				</li>
+			</ul>
+			<button class="clear-completed">Clear completed</button>
+		</script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/app.js"></script>
+		<script type="text/javascript" src="scripts/services.js"></script>
+		<script type="text/javascript" src="scripts/controllers.js"></script>
+	</body>
+</html>
