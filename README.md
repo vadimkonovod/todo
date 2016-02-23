@@ -1,0 +1,1 @@
+Pure JavaScript to-do list with localStorage
