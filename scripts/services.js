@@ -13,6 +13,7 @@ services = (function() {
             $(".footer .todo-count").html(itemsLeft(getAll()));
             render();
         }
+        disableBtnToggleAll(getAll());
     }
 
     function render() {
@@ -33,6 +34,7 @@ services = (function() {
         } else {
             $(".clear-completed").hide();
         }
+        disableBtnToggleAll(todos);
     }
 
     function createToDo(todo) {
@@ -54,6 +56,7 @@ services = (function() {
         $(".todo-list li:last-child").attr("id", id);
         $(".todo-list li:last-child label").text(todo);
         $(".footer .todo-count").html(itemsLeft(todos));
+        disableBtnToggleAll(todos);
     }
 
     function completeToDo(id) {
@@ -67,6 +70,7 @@ services = (function() {
         } else {
             $(".clear-completed").hide();
         }
+        disableBtnToggleAll(todos);
     }
 
     function deleteToDo(id) {
@@ -87,6 +91,7 @@ services = (function() {
         } else {
             $(".clear-completed").hide();
         }
+        disableBtnToggleAll(todos);
     }
 
     function clear() {
@@ -101,9 +106,47 @@ services = (function() {
             localStorage.setItem("todos", JSON.stringify(todos));
         } else {
             localStorage.removeItem('todos')
+            $('.toggle-all').prop('checked', false);
         }
         $(".todo-list").empty();
         init();
+        disableBtnToggleAll(todos);
+    }
+
+    function toggleAll() {
+        var todos = getAll();
+        if ($('.toggle-all').prop('checked')) {
+            $('.todo-list li').each(function(index) {
+                $(this).addClass('completed');
+                $('.toggle', this).prop('checked', true)
+                todos[$(this).attr('id')].completed = true;
+            });
+        } else {
+            $('.todo-list li').each(function(index) {
+                $(this).removeClass('completed');
+                $('.toggle', this).prop('checked', false)
+                todos[$(this).attr('id')].completed = false;
+            });
+        }
+        localStorage.setItem("todos", JSON.stringify(todos));
+        $(".footer .todo-count").html(itemsLeft(todos));
+        
+        if (hasCompleted(todos)) {
+            $(".clear-completed").show();
+        } else {
+            $(".clear-completed").hide();
+        }
+    }
+
+
+    function disableBtnToggleAll(todos) {
+        for (var key in todos) {
+            if (!todos[key].completed) {
+                $('.toggle-all').prop('checked', false);
+                return;
+            }
+        }
+        $('.toggle-all').prop('checked', true);
     }
 
     function itemsLeft(todos) {
@@ -119,7 +162,7 @@ services = (function() {
     function hasCompleted(todos) {
         for (var key in todos) {
             if (todos[key].completed) {
-                return true
+                return true;
             }
         }
         return false;
@@ -163,6 +206,7 @@ services = (function() {
         createToDo : createToDo,
         completeToDo : completeToDo,
         deleteToDo : deleteToDo,
-        clear : clear
+        clear : clear,
+        toggleAll : toggleAll
     }
 }());

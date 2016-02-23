@@ -1,1 +1,1 @@
-Pure JavaScript to-do list with localStorage
+Pure JavaScript (+jQuery) to-do list with localStorage

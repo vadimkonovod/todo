@@ -203,7 +203,7 @@ label[for='toggle-all'] {
 	margin-left: 45px;
 	display: block;
 	line-height: 1.2;
-	transition: color 0.2s;
+	transition: color 0.1s;
 }
 
 .todo-list li.completed label {
@@ -223,7 +223,7 @@ label[for='toggle-all'] {
 	font-size: 30px;
 	color: #cc9a9a;
 	margin-bottom: 11px;
-	transition: color 0.2s ease-out;
+	transition: color 0.1s ease-out;
 }
 
 .todo-list li .destroy:hover {

@@ -18,5 +18,8 @@ $(function(){
         })
         .on('click', '.clear-completed', function() {
             services.clear();
+        })
+        .on('click', '.toggle-all', function() {
+            services.toggleAll();
         });
 });
