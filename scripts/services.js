@@ -23,6 +23,7 @@ services = (function() {
             $(".todo-list").append(itemTemplate);
             $(".todo-list li:last-child").attr("id", todos[key].id);
             $(".todo-list li:last-child label").text(todos[key].title);
+            $(".todo-list li:last-child .edit").val(todos[key].title);
             if (todos[key].completed) {
                 $(".todo-list li:last-child").addClass('completed');
                 $('.todo-list li:last-child .toggle').prop('checked', true)
@@ -55,6 +56,7 @@ services = (function() {
         $(".todo-list").append(itemTemplate);
         $(".todo-list li:last-child").attr("id", id);
         $(".todo-list li:last-child label").text(todo);
+        $(".todo-list li:last-child .edit").val(todo);
         $(".footer .todo-count").html(itemsLeft(todos));
         disableBtnToggleAll(todos);
     }
@@ -94,7 +96,7 @@ services = (function() {
         disableBtnToggleAll(todos);
     }
 
-    function clear() {
+    function clearComplited() {
         var todos = getAll();
         for (var key in todos) {
             if (todos[key].completed) {
@@ -136,6 +138,43 @@ services = (function() {
         } else {
             $(".clear-completed").hide();
         }
+    }
+
+    function close() {
+            var value = this.value;
+            var trimmedValue = value.trim();
+
+            var $li = $(this).closest('li');
+
+            if (!($li.hasClass('editing'))) {
+                return;
+            }
+
+            var id = $li.attr('id');
+
+            if (trimmedValue) {
+                var todos = getAll();
+                todos[id].title = trimmedValue;
+                localStorage.setItem("todos", JSON.stringify(todos));
+
+                $("label", $li).text(trimmedValue);
+                $(".edit", $li).val(trimmedValue);
+            } else {
+                $li.remove();
+                services.deleteToDo(id);
+            }
+
+            $li.removeClass('editing');
+    }
+
+    function revertOnEscape() {
+        var $li = $(this).closest('li');
+        $li.removeClass('editing');
+        var id = $li.attr('id');
+        var todos = getAll();
+                
+        $("label", $li).text(todos[id].title);
+        $(".edit", $li).val(todos[id].title);
     }
 
 
@@ -206,7 +245,9 @@ services = (function() {
         createToDo : createToDo,
         completeToDo : completeToDo,
         deleteToDo : deleteToDo,
-        clear : clear,
-        toggleAll : toggleAll
+        clearComplited : clearComplited,
+        toggleAll : toggleAll,
+        close: close,
+        revertOnEscape : revertOnEscape
     }
 }());
