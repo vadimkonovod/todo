@@ -2,6 +2,7 @@ services = (function() {
 
     var itemTemplate = $('#item-template').html();
     var statsTemplate = $('#stats-template').html();
+    var currentFilter = $('.filters li a[href="#/"]');
 
     function init() {
         if (!localStorage.todos) {
@@ -59,6 +60,7 @@ services = (function() {
         $(".todo-list li:last-child .edit").val(todo);
         $(".footer .todo-count").html(itemsLeft(todos));
         disableBtnToggleAll(todos);
+        doFilter(currentFilter);
     }
 
     function completeToDo(id) {
@@ -73,6 +75,7 @@ services = (function() {
             $(".clear-completed").hide();
         }
         disableBtnToggleAll(todos);
+        doFilter(currentFilter);
     }
 
     function deleteToDo(id) {
@@ -113,6 +116,7 @@ services = (function() {
         $(".todo-list").empty();
         init();
         disableBtnToggleAll(todos);
+        doFilter(currentFilter);
     }
 
     function toggleAll() {
@@ -138,6 +142,7 @@ services = (function() {
         } else {
             $(".clear-completed").hide();
         }
+        doFilter(currentFilter);
     }
 
     function close() {
@@ -165,6 +170,21 @@ services = (function() {
             }
 
             $li.removeClass('editing');
+    }
+
+    function doFilter(select) {
+        $('.filters li a').removeClass('selected');
+        $(select).addClass('selected');
+        if ($(select).attr('href') == '#/active') {
+            $('.todo-list li.completed').hide();
+            $(".todo-list li:not(.completed)").show();
+        } else if ($(select).attr('href') == '#/completed') {
+            $('.todo-list li.completed').show();
+            $(".todo-list li:not(.completed)").hide();
+        } else {
+            $('.todo-list li').show();
+        }
+        currentFilter = select;
     }
 
     function revertOnEscape() {
@@ -248,6 +268,7 @@ services = (function() {
         clearComplited : clearComplited,
         toggleAll : toggleAll,
         close: close,
-        revertOnEscape : revertOnEscape
+        revertOnEscape : revertOnEscape,
+        doFilter : doFilter
     }
 }());

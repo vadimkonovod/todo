@@ -39,5 +39,8 @@ $(function(){
             if (e.which === ESC_KEY) {
                 services.revertOnEscape.call(this);
             }
+        })
+        .on('click', '.filters li a', function() {
+            services.doFilter($(this));
         });
 });
